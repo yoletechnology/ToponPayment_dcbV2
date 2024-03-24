@@ -87,7 +87,11 @@ public class YoleSdkMgr extends YoleSdkBase {
         }
     }
 
-
+    private void failCallBack(String stt,PayCallBackFunction call)
+    {
+        call.onCallBack(false,stt,"");
+        LoadingDialog.getInstance(_activity).hideDialog();
+    }
     public void startPay(YoleSdkPayInfo _orderInfo,PayCallBackFunction call) {
 
         LoadingDialog.getInstance(_activity).showDialog();
@@ -95,43 +99,43 @@ public class YoleSdkMgr extends YoleSdkBase {
         String appName = _orderInfo.getAppName();//游戏名称
         if(appName.length() <= 0)
         {
-            call.onCallBack(false,"parameter error：appName","");
+            failCallBack("parameter error：appName",call);
             return;
         }
         String productName = _orderInfo.getProductName();//商品名称
         if(productName.length() <= 0)
         {
-            call.onCallBack(false,"parameter error：productName","");
+            failCallBack("parameter error：productName",call);
             return;
         }
         double amount = _orderInfo.getAmount();
         if(amount <= 0)
         {
-            call.onCallBack(false,"parameter error：amount","");
+            failCallBack("parameter error：amount",call);
             return;
         }
         String countryCode = _orderInfo.getCountryCode();//"RU"
         if(countryCode.length() <= 0)
         {
-            call.onCallBack(false,"parameter error：countryCode","");
+            failCallBack("parameter error：countryCode",call);
             return;
         }
         String currency = _orderInfo.getCurrency();//"RUB"
         if(currency.length() <= 0)
         {
-            call.onCallBack(false,"parameter error：currency","");
+            failCallBack("parameter error：currency",call);
             return;
         }
         String orderNumber = _orderInfo.getOrderId();
         if(orderNumber.length() <= 0)
         {
-            call.onCallBack(false,"parameter error：orderNumber","");
+            failCallBack("parameter error：orderNumber",call);
             return;
         }
         String orderDescription = _orderInfo.getOrderDescription();
         if(orderDescription.length() <= 0)
         {
-            call.onCallBack(false,"parameter error：orderDescription","");
+            failCallBack("parameter error：orderDescription",call);
             return;
         }
 
@@ -185,7 +189,7 @@ public class YoleSdkMgr extends YoleSdkBase {
         }
         else
         {
-            call.onCallBack(false,"","");
+            failCallBack("Server failed to retrieve order",call);
         }
     }
 }
