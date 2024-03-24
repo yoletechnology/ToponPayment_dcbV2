@@ -1,0 +1,27 @@
+
+pluginManagement {
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+        maven{ url  "https://bitbucket.org/dcb-lib/DCB-library/raw/master"}
+
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        jcenter()
+        maven { url 'https://jitpack.io' }
+        maven{url   "https://bitbucket.org/dcb-lib/DCB-library/raw/master"}
+
+    }
+}
+//可以用git上的项目名
+rootProject.name = "ToponPayment_dcbV2"
+include ':app'
+//sdk的目录名称，但是不能和git上的项目名一样，
+include ':sdk'

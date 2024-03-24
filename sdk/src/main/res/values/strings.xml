@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_price">CN 168.00</string>
+    <string name="default_order">订单号：32341353549447611</string>
+    <string name="todo">TODO</string>
+
+    <string name="valid_phone_number">请提交有效的支付账户手机号</string>
+    <string name="results">支付结果</string>
+    <string name="format_error">手机号码格式错误！</string>
+    <string name="cancel">支付取消</string>
+    <string name="order">订单号</string>
+    <string name="payment">立即支付</string>
+    <string name="parameter_error">参数错误</string>
+    <string name="cpcode_error">CpCode错误</string>
+    <string name="amount_error">Amount错误</string>
+    <string name="countrycode_error">CountryCode错误</string>
+    <string name="mcc_error">Mcc错误</string>
+    <string name="mnc_error">Mnc错误</string>
+    <string name="payordernum_error">PayOrderNum错误</string>
+
+</resources>
