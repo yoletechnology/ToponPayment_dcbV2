@@ -3,9 +3,12 @@ package com.toponpaydcb.sdk;
 import android.content.Intent;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.toponpaydcb.sdk.callback.CreateSdkCallBackFunction;
 import com.toponpaydcb.sdk.callback.InitCallBackFunction;
 import com.toponpaydcb.sdk.callback.PayCallBackFunction;
+import com.toponpaydcb.sdk.data.YoleSdkPayInfo;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,15 +87,55 @@ public class YoleSdkMgr extends YoleSdkBase {
         }
     }
 
-    public void startPay(double _price, String _orderId, PayCallBackFunction call) {
+
+    public void startPay(YoleSdkPayInfo _orderInfo,PayCallBackFunction call) {
 
         LoadingDialog.getInstance(_activity).showDialog();
 
-        double amount = _price;
-        String orderNumber = _orderId;
-        String countryCode = "RU";
-        String currency = "RUB";
-        String orderDescription = "订单描述";
+        String appName = _orderInfo.getAppName();//游戏名称
+        if(appName.length() <= 0)
+        {
+            call.onCallBack(false,"parameter error：appName","");
+            return;
+        }
+        String productName = _orderInfo.getProductName();//商品名称
+        if(productName.length() <= 0)
+        {
+            call.onCallBack(false,"parameter error：productName","");
+            return;
+        }
+        double amount = _orderInfo.getAmount();
+        if(amount <= 0)
+        {
+            call.onCallBack(false,"parameter error：amount","");
+            return;
+        }
+        String countryCode = _orderInfo.getCountryCode();//"RU"
+        if(countryCode.length() <= 0)
+        {
+            call.onCallBack(false,"parameter error：countryCode","");
+            return;
+        }
+        String currency = _orderInfo.getCurrency();//"RUB"
+        if(currency.length() <= 0)
+        {
+            call.onCallBack(false,"parameter error：currency","");
+            return;
+        }
+        String orderNumber = _orderInfo.getOrderId();
+        if(orderNumber.length() <= 0)
+        {
+            call.onCallBack(false,"parameter error：orderNumber","");
+            return;
+        }
+        String orderDescription = _orderInfo.getOrderDescription();
+        if(orderDescription.length() <= 0)
+        {
+            call.onCallBack(false,"parameter error：orderDescription","");
+            return;
+        }
+
+
         final boolean[] isRequestSuccess = {false};
         Thread thread = new Thread(() -> {
             request.createBySdk(appkey, secretkey, amount,orderNumber, countryCode, currency, orderDescription, new CreateSdkCallBackFunction() {
@@ -123,7 +166,7 @@ public class YoleSdkMgr extends YoleSdkBase {
 
 
         if (isRequestSuccess[0] == true) {
-            super.startPay(_price, billingNumber, new PayCallBackFunction(){
+            super.startPay(billingNumber,productName,appName,amount, currency, new PayCallBackFunction(){
 
                 @Override
                 public void onCallBack(boolean result, String info, String invoiceId) {

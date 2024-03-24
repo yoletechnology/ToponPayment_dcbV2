@@ -30,19 +30,19 @@ public class YoleSdkBase {
     /**
      * 各种网络接口
      **/
-    public NetworkRequest request = new NetworkRequest();
+    protected NetworkRequest request = new NetworkRequest();
 
-    public static YoleSdkBase instance = null;
+    protected static YoleSdkBase instance = null;
 
-    public androidx.activity.ComponentActivity _activity = null;
+    protected androidx.activity.ComponentActivity _activity = null;
 
-    public PayCallBackFunction payCallBack = null;
+    protected PayCallBackFunction payCallBack = null;
 //    public PayCallBackFunction cpPayCallBack = null;
-    public String login = "";
-    public String password = "";
-    public String projectId = "";
+    protected String login = "";
+    protected String password = "";
+    protected String projectId = "";
 
-    public void initSDKApi(String PROJECT_ID, String LOGIN, String PASSWORD) {
+    protected void initSDKApi(String PROJECT_ID, String LOGIN, String PASSWORD) {
 //        String PROJECT_ID = "2090";
 //        String LOGIN="AIMO";
 //        String PASSWORD = "r&62Q#c9";
@@ -100,14 +100,14 @@ public class YoleSdkBase {
         });
     }
 
-    public void startPay(double _price, String billingNumber, PayCallBackFunction call) {
+    protected void startPay(String _billingNumber, String _productName, String _appName,double _price, String _currency,PayCallBackFunction call) {
 
         payCallBack = call;
-        String orderId = billingNumber;//订单号
-        String productName = "商品名称";//商品名称
-        String appName = "游戏名称";//游戏名称
+        String orderId = _billingNumber;//订单号
+        String productName = _productName;//商品名称
+        String appName = _appName;//游戏名称
         double number = _price;//价格
-        String currency = "RUB";//货币类型
+        String currency = _currency;//货币类型
         boolean includingVAT = true;
         SDKApi.startPayment(_activity, new DCBPrice(orderId, productName, appName, number, currency, includingVAT), true);
     }
