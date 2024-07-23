@@ -1,21 +1,10 @@
 package com.toponpaydcb.sdk;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ComponentActivity;
-
-import com.toponpaydcb.sdk.callback.CreateSdkCallBackFunction;
-import com.toponpaydcb.sdk.callback.InitCallBackFunction;
 import com.toponpaydcb.sdk.callback.PayCallBackFunction;
 import com.toponpaydcb.sdk.tool.NetworkRequest;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import ru.ifree.dcblibrary.CallbackApiDCB;
 import ru.ifree.dcblibrary.DCBPrice;
 import ru.ifree.dcblibrary.SDKApi;
@@ -56,6 +45,16 @@ public class YoleSdkBase {
 
         SDKApi.listenerCallbackApi(new CallbackApiDCB() {
             @Override
+            public void error(int i, @Nullable String s, @Nullable String s1) {
+                Log.e(TAG, "error=" + s);
+                if (payCallBack != null) {
+                    payCallBack.onCallBack(false, s, "");
+
+                    LoadingDialog.getInstance(_activity).hideDialog();
+                }
+            }
+
+            @Override
             public void successPaymentResult(@NonNull InvoiceResponse invoiceResponse, int i) {
                 Log.e(TAG, "successPaymentResult");
 
@@ -73,15 +72,7 @@ public class YoleSdkBase {
                 Log.e(TAG, "pinStatus");
             }
 
-            @Override
-            public void error(int i, @Nullable String s) {
-                Log.e(TAG, "error=" + s);
-                if (payCallBack != null) {
-                    payCallBack.onCallBack(false, s, "");
 
-                    LoadingDialog.getInstance(_activity).hideDialog();
-                }
-            }
 
             @Override
             public void contractInfo(@Nullable String s, @Nullable String s1) {

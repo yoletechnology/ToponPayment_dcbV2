@@ -27,7 +27,7 @@ public class NetworkRequest {
         }
 
 
-        String res = NetUtil.sendPost("https://api.yolesdk.com/v2/api/ruBackCard/transaction/initBySdk", formBody);
+        String res = NetUtil.sendPost("https://api.yolesdk.com/v2/api/ruBankCard/transaction/initBySdk", formBody);
         Log.d(TAG, "onlineInit" + res);
 
         try {
@@ -83,7 +83,7 @@ public class NetworkRequest {
         }
 
 
-        String res = NetUtil.sendPost("https://api.yolesdk.com/v2/api/ruBackCard/transaction/createBySdk", formBody);
+        String res = NetUtil.sendPost("https://api.yolesdk.com/v2/api/ruBankCard/transaction/createBySdk", formBody);
         Log.d(TAG, "createBySdk" + res);
 
         try {
@@ -135,7 +135,7 @@ public class NetworkRequest {
         }
 
 
-        String res = NetUtil.sendPost("https://api.yolesdk.com/v2/api/ruBackCard/transaction/savePayRecordBySdk", formBody);
+        String res = NetUtil.sendPost("https://api.yolesdk.com/v2/api/ruBankCard/transaction/savePayRecordBySdk", formBody);
         Log.d(TAG, "savePayRecordBySdk" + res);
 
         try {
