@@ -30,15 +30,16 @@ public class YoleSdkBase {
     protected String login = "";
     protected String password = "";
     protected String projectId = "";
+    protected String source = "";
 
     protected void initSDKApi(String PROJECT_ID, String LOGIN, String PASSWORD) {
 //        String PROJECT_ID = "2090";
 //        String LOGIN="AIMO";
 //        String PASSWORD = "r&62Q#c9";
         SDKApiOptions options = new SDKApiOptions.Builder(PROJECT_ID, LOGIN, PASSWORD)
-                .setSource("")
-                .setLogsUsing(true)
-                .setTestMode(true)
+                .setSource(source)
+                .setLogsUsing(false)
+                .setTestMode(false)
                 .setDefaultMessage(true)
                 .build();
         SDKApi.initSDK(_activity, options);

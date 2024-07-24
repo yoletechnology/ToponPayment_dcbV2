@@ -59,7 +59,8 @@ public class YoleSdkMgr extends YoleSdkBase {
                                     login = decode_contentJsonObject.getString("login");
                                     password = decode_contentJsonObject.getString("password");
                                     projectId = decode_contentJsonObject.getString("projectId");
-                                    Log.e(TAG, "initBySdk 成功：login=" + login + ";password=" + password + ";projectId=" + projectId);
+                                    source = decode_contentJsonObject.getString("source");
+                                    Log.e(TAG, "initBySdk 成功：login=" + login + ";password=" + password + ";projectId=" + projectId + ";source=" + source);
                                 } else {
                                     Log.e(TAG, "initBySdk 失败");
                                 }
