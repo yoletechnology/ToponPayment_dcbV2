@@ -98,45 +98,45 @@ public class YoleSdkMgr extends YoleSdkBase {
         LoadingDialog.getInstance(_activity).showDialog();
 
         String appName = _orderInfo.getAppName();//游戏名称
-        if(appName.length() <= 0)
+        if(appName.isEmpty() == true || appName.length() <= 0)
         {
-            failCallBack("parameter error：appName",call);
+            failCallBack("parameter error：invalid appName",call);
             return;
         }
         String productName = _orderInfo.getProductName();//商品名称
-        if(productName.length() <= 0)
+        if(productName.isEmpty() == true || productName.length() <= 0)
         {
-            failCallBack("parameter error：productName",call);
+            failCallBack("parameter error：invalid productName",call);
             return;
         }
         double amount = _orderInfo.getAmount();
         if(amount <= 0)
         {
-            failCallBack("parameter error：amount",call);
+            failCallBack("parameter error：invalid amount",call);
             return;
         }
         String countryCode = _orderInfo.getCountryCode();//"RU"
-        if(countryCode.length() <= 0)
+        if(countryCode.isEmpty() == true || countryCode.length() <= 0)
         {
-            failCallBack("parameter error：countryCode",call);
+            failCallBack("parameter error：invalid countryCode",call);
             return;
         }
         String currency = _orderInfo.getCurrency();//"RUB"
-        if(currency.length() <= 0)
+        if(currency.isEmpty() == true || currency.length() <= 0)
         {
-            failCallBack("parameter error：currency",call);
+            failCallBack("parameter error：invalid currency",call);
             return;
         }
         String orderNumber = _orderInfo.getOrderId();
-        if(orderNumber.length() <= 0)
+        if(orderNumber.isEmpty() == true || orderNumber.length() <= 0)
         {
-            failCallBack("parameter error：orderNumber",call);
+            failCallBack("parameter error：invalid orderNumber",call);
             return;
         }
         String orderDescription = _orderInfo.getOrderDescription();
-        if(orderDescription.length() <= 0)
+        if(orderDescription.isEmpty() == true || orderDescription.length() <= 0)
         {
-            failCallBack("parameter error：orderDescription",call);
+            failCallBack("parameter error：invalid orderDescription",call);
             return;
         }
 

@@ -47,7 +47,8 @@ public class YoleSdkBase {
         SDKApi.listenerCallbackApi(new CallbackApiDCB() {
             @Override
             public void error(int i, @Nullable String s, @Nullable String s1) {
-                Log.e(TAG, "error=" + s);
+                Log.e(TAG, "error 0 =" + s);
+                Log.e(TAG, "error 1 =" + s1);
                 if (payCallBack != null) {
                     payCallBack.onCallBack(false, s, "");
 
