@@ -111,12 +111,13 @@ public class NetworkRequest {
         }
     }
 
-    public void savePayRecordBySdk(String appKey, String secretkey,  String billingNumber, String invoiceId) {
+    public void savePayRecordBySdk(String appKey, String secretkey,  String billingNumber, String invoiceId,String  paymentStatus) {
 
         JSONObject requestBody = new JSONObject ();
         try {
             requestBody.put("billingNumber",billingNumber);
             requestBody.put("invoiceId",invoiceId);
+            requestBody.put("paymentStatus",paymentStatus);
             Log.d(TAG, "createBySdk-content:"+requestBody.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -145,6 +146,44 @@ public class NetworkRequest {
             String message = jsonObject.getString("message");
 
             Log.d(TAG, "savePayRecordBySdk-status:"+status+";errorCode="+errorCode+";message="+message);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+    public void saveSdkResult(String appKey, String secretkey,  String billingNumber, String invoiceResponse) {
+
+        JSONObject requestBody = new JSONObject ();
+        try {
+            requestBody.put("InvoiceResponse",invoiceResponse);
+            Log.d(TAG, "saveSdkResult-content:"+requestBody.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d(TAG, "saveSdkResult-requestBody-error:"+e.toString());
+        }
+
+        JSONObject formBody = new JSONObject();
+        try {
+            EncodeBaseDataV2 data = NetUtil.RestApiRequest(requestBody.toString(), secretkey);
+            formBody.put("appKey", appKey);
+            formBody.put("sign", data.sign);
+            formBody.put("content", data.content);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            Log.d(TAG, "saveSdkResult-formBody-error:" + e.toString());
+        }
+
+
+        String res = NetUtil.sendPost("https://api.yolesdk.com/v2/api/ruBankCard/transaction/saveSdkResult", formBody);
+        Log.d(TAG, "saveSdkResult" + res);
+
+        try {
+            JSONObject jsonObject = new JSONObject(res);
+            String status = jsonObject.getString("status");
+            String errorCode = jsonObject.getString("errorCode");
+            String message = jsonObject.getString("message");
+
+            Log.d(TAG, "saveSdkResult-status:"+status+";errorCode="+errorCode+";message="+message);
 
         } catch (JSONException e) {
             e.printStackTrace();

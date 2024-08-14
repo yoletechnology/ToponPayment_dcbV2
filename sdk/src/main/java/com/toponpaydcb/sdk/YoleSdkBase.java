@@ -3,6 +3,8 @@ package com.toponpaydcb.sdk;
 import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.gson.Gson;
 import com.toponpaydcb.sdk.callback.PayCallBackFunction;
 import com.toponpaydcb.sdk.tool.NetworkRequest;
 import ru.ifree.dcblibrary.CallbackApiDCB;
@@ -32,25 +34,33 @@ public class YoleSdkBase {
     protected String projectId = "";
     protected String source = "";
 
+    public String appkey = "";
+    public String secretkey = "";
+    public String billingNumber = "";
+
     protected void initSDKApi(String PROJECT_ID, String LOGIN, String PASSWORD) {
 //        String PROJECT_ID = "2090";
 //        String LOGIN="AIMO";
 //        String PASSWORD = "r&62Q#c9";
         SDKApiOptions options = new SDKApiOptions.Builder(PROJECT_ID, LOGIN, PASSWORD)
                 .setSource(source)
-                .setLogsUsing(false)
-                .setTestMode(false)
+                .setLogsUsing(true)
+                .setTestMode(true)
                 .setDefaultMessage(true)
                 .build();
         SDKApi.initSDK(_activity, options);
-
+        Gson gson = new Gson();
         SDKApi.listenerCallbackApi(new CallbackApiDCB() {
             @Override
-            public void error(int i, @Nullable String s, @Nullable String s1) {
+            public void error(int code, @Nullable String s, @Nullable String s1) {
                 Log.e(TAG, "error 0 =" + s);
                 Log.e(TAG, "error 1 =" + s1);
-                if (payCallBack != null) {
-                    payCallBack.onCallBack(false, s, "");
+                if (s != null && payCallBack != null) {
+//                    InvoiceResponse temp = new InvoiceResponse();
+//                    InvoiceResponse.InvoiceInfo info = new InvoiceResponse.InvoiceInfo();
+//                    info.setMInvoiceID("");
+//                    temp.setMInvoiceInfo(info);
+                    payCallBack.onCallBack(false, s, "",s);
 
                     LoadingDialog.getInstance(_activity).hideDialog();
                 }
@@ -61,8 +71,11 @@ public class YoleSdkBase {
                 Log.e(TAG, "successPaymentResult");
 
                 if (payCallBack != null) {
-                    String InvoiceID = invoiceResponse.getMInvoiceInfo().getMInvoiceID();
-                    payCallBack.onCallBack(true, "", InvoiceID);
+
+                    String invoiceID = invoiceResponse.getMInvoiceInfo().getMInvoiceID();
+                    String paymentStatus = invoiceResponse.getMInvoiceInfo().getMPaymentStatus();
+
+                    payCallBack.onCallBack(true, "", invoiceID,paymentStatus);
 
                     LoadingDialog.getInstance(_activity).hideDialog();
                 }
@@ -102,6 +115,6 @@ public class YoleSdkBase {
         double number = _price;//价格
         String currency = _currency;//货币类型
         boolean includingVAT = true;
-        SDKApi.startPayment(_activity, new DCBPrice(orderId, productName, appName, number, currency, includingVAT), true);
+        SDKApi.startPayment(_activity, new DCBPrice(orderId, productName, appName, number, currency, includingVAT), false);
     }
 }

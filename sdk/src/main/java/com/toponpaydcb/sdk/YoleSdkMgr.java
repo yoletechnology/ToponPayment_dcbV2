@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import ru.ifree.dcblibrary.DCBPrice;
 import ru.ifree.dcblibrary.SDKApi;
+import ru.ifree.dcblibrary.api.request_data.InvoiceResponse;
 
 public class YoleSdkMgr extends YoleSdkBase {
 
@@ -24,9 +25,7 @@ public class YoleSdkMgr extends YoleSdkBase {
     public static final String RETURN_INFO = "com.toponpaydcb.sdk.info";
 
 
-    public String appkey = "";
-    public String secretkey = "";
-    public String billingNumber = "";
+
 
     public static YoleSdkMgr getsInstance() {
         if (YoleSdkMgr._instance == null) {
@@ -90,7 +89,7 @@ public class YoleSdkMgr extends YoleSdkBase {
 
     private void failCallBack(String stt,PayCallBackFunction call)
     {
-        call.onCallBack(false,stt,"");
+        call.onCallBack(false,stt,"",null);
         LoadingDialog.getInstance(_activity).hideDialog();
     }
     public void startPay(YoleSdkPayInfo _orderInfo,PayCallBackFunction call) {
@@ -174,14 +173,15 @@ public class YoleSdkMgr extends YoleSdkBase {
             super.startPay(billingNumber,productName,appName,amount, currency, new PayCallBackFunction(){
 
                 @Override
-                public void onCallBack(boolean result, String info, String invoiceId) {
+                public void onCallBack(boolean result, String info, String invoiceId, String paymentStatus) {
 
-                    call.onCallBack(result,info,invoiceId);
+                    call.onCallBack(result,info,invoiceId,null);
 
 //                    if(result == true)
                     {
                         Thread thread1 = new Thread(() -> {
-                            request.savePayRecordBySdk(appkey, secretkey, billingNumber, invoiceId);
+                            request.savePayRecordBySdk(appkey, secretkey, billingNumber, invoiceId,paymentStatus);
+//                            request.saveSdkResult(appkey, secretkey, billingNumber, invoiceResponse);
                         });
                         thread1.start();
                     }
@@ -192,5 +192,8 @@ public class YoleSdkMgr extends YoleSdkBase {
         {
             failCallBack("Server failed to retrieve order",call);
         }
+    }
+    public void activityForResult(int requestCode, int resultCode, Intent data) {
+        SDKApi.activityForResult(requestCode,resultCode,data);
     }
 }
